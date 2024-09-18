@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Machine Learning Model</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Nhập Thông Tin và Chọn Mô Hình</h1>
+        <form action="/" method="POST">
+            <label for="cylinders">Cylinders:</label>
+            <input type="text" id="cylinders" name="cylinders" required><br>
+            <label for="displacement">Displacement:</label>
+            <input type="text" id="displacement" name="displacement" required><br>
+            <label for="horsepower">Horsepower:</label>
+            <input type="text" id="horsepower" name="horsepower" required><br>
+            <label for="weight">Weight:</label>
+            <input type="text" id="weight" name="weight" required><br>
+            <label for="acceleration">Acceleration:</label>
+            <input type="text" id="acceleration" name="acceleration" required><br>
+            <label for="model_year">Model Year:</label>
+            <input type="text" id="model_year" name="model_year" required><br>
+            <label for="origin">Origin:</label>
+            <input type="text" id="origin" name="origin" required><br>
+
+            <label for="model">Chọn mô hình:</label>
+            <select id="model" name="model">
+                <option value="linear_regression">Linear Regression</option>
+                <option value="lasso">Lasso Regression</option>
+                <option value="mlp">MLP Regressor</option>
+            </select><br><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
