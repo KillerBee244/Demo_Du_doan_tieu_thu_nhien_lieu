@@ -1,16 +1,9 @@
 {
-  "functions": {
-    "api/*.py": {
-      "maxDuration": 10,
-      "memory": 1024
-    }
-  },
-  "ignore": [
-    "__pycache__",
-    "*.pyc",
-    "venv",
-    "node_modules",
-    "*.log",
-    "tests/*"
-  ]
+    "version": 2,
+    "builds":[
+        {"src":  "app.py","use":"@vercel/python"}
+    ],
+    "router":[
+        {"src":"/(.*)","dest":"app.py"}
+    ]
 }
