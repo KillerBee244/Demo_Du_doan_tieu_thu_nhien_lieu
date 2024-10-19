@@ -1,22 +1,35 @@
 from flask import Flask, render_template, request
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LinearRegression, Lasso
-from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
-
+from sklearn.model_selection import train_test_split
+import joblib
 app = Flask(__name__)
 
 # Load and preprocess data
 df = pd.read_csv('auto_mpg.csv')
-df['horsepower'] = pd.to_numeric(df['horsepower'], errors='coerce')
-df = df.dropna()
-df = df.drop(columns=['car name'])
-X = df.drop(columns=['mpg'])
-y = df['mpg']
 
-from sklearn.model_selection import train_test_split
+
+df['horsepower'] = pd.to_numeric(df['horsepower'], errors='coerce')
+
+
+df = df.dropna()
+
+
+df = df.drop(columns=['car name'])
+
+
+X = df.drop(columns=['mpg'])  
+y = df['mpg'] 
+
+
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
 
 def calculate_metrics(y_true, y_pred):
     r2 = r2_score(y_true, y_pred)
@@ -24,6 +37,11 @@ def calculate_metrics(y_true, y_pred):
     mae = mean_absolute_error(y_true, y_pred)
     nse = 1 - (np.sum((y_true - y_pred) ** 2) / np.sum((y_true - np.mean(y_true)) ** 2))
     return r2, rmse, mae, nse
+
+model_linear = joblib.load('linear_model.pkl')
+model_Mlp = joblib.load('Mlp_model.pkl')
+model_lasso = joblib.load('lasso_model.pkl')
+model_stacking = joblib.load('stacking_model.pkl')
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -43,14 +61,24 @@ def index():
         
         # Select model
         if model_type == "linear_regression":
-            model = LinearRegression()
+            model = model_linear
         elif model_type == "lasso":
-            model = Lasso(alpha=0.1)  # Adjust alpha for Lasso regularization strength
+            model =   model_lasso # Adjust alpha for Lasso regularization strength
         elif model_type == "mlp":
-            model = MLPRegressor(hidden_layer_sizes=(100,), max_iter=1000, random_state=42, verbose=True)
-        
+            model = model_Mlp
+        elif model_type == "stk":
+            model = model_stacking
+
+        selected_model = request.form['model']
+        if selected_model == 'linear':
+            model = model_linear
+        elif selected_model == 'MLP':
+            model = model_Mlp
+        elif selected_model == 'stacking':
+            model = model_stacking
+        else:
+            model = model_lasso
         # Train model
-        model.fit(X_train, y_train)
         y_pred_train = model.predict(X_train)
         
         # Make prediction
