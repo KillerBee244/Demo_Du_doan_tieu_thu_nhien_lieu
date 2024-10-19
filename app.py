@@ -69,15 +69,7 @@ def index():
         elif model_type == "stk":
             model = model_stacking
 
-        selected_model = request.form['model']
-        if selected_model == 'linear':
-            model = model_linear
-        elif selected_model == 'MLP':
-            model = model_Mlp
-        elif selected_model == 'stacking':
-            model = model_stacking
-        else:
-            model = model_lasso
+        
         # Train model
         y_pred_train = model.predict(X_train)
         
