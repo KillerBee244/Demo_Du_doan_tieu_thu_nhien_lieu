@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 import joblib
 app = Flask(__name__)
 
