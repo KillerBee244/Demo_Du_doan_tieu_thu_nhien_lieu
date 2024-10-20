@@ -75,7 +75,7 @@ def index():
         y_pred_train = model.predict(X_train)
         
         # Make prediction
-        y_pred = model.predict(input_data)[0]
+        y_pred = model.predict(input_data)
         
         # Calculate performance metrics
         r2, rmse, mae, nse = calculate_metrics(y_train, y_pred_train)
