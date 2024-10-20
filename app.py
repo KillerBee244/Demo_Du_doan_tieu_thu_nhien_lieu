@@ -59,6 +59,9 @@ def index():
         
         # Prepare input for prediction
         input_data = np.array([[cylinders, displacement, horsepower, weight, acceleration, model_year, origin]])
+
+        # Scale input data
+        input_data_scaled = scaler.transform(input_data)
         
         # Select model
         if model_type == "linear_regression":
@@ -75,13 +78,13 @@ def index():
         y_pred_train = model.predict(X_train)
         
         # Make prediction
-        y_pred = model.predict(input_data)
+        y_pred = model.predict(input_data_scaled)
         
         # Calculate performance metrics
         r2, rmse, mae, nse = calculate_metrics(y_train, y_pred_train)
         
         # Render result without plot
-        return render_template('result.html', y_pred=y_pred, r2=r2, rmse=rmse, mae=mae, nse=nse)
+        return render_template('result.html', y_pred=y_pred[0], r2=r2, rmse=rmse, mae=mae, nse=nse)
     
     return render_template('index.html')
 
