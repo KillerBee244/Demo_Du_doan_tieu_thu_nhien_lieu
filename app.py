@@ -39,10 +39,10 @@ def calculate_metrics(y_true, y_pred):
     nse = 1 - (np.sum((y_true - y_pred) ** 2) / np.sum((y_true - np.mean(y_true)) ** 2))
     return r2, rmse, mae, nse
 
-model_linear = joblib.load('Model\linear_model.pkl')
-model_Mlp = joblib.load('Model\Mlp_model.pkl')
-model_lasso = joblib.load('Model\lasso_model.pkl')
-model_stacking = joblib.load('Model\stacking_model.pkl')
+model_linear = joblib.load('linear_model.pkl')
+model_Mlp = joblib.load('Mlp_model.pkl')
+model_lasso = joblib.load(lasso_model.pkl')
+model_stacking = joblib.load('stacking_model.pkl')
 
 @app.route("/", methods=["GET", "POST"])
 def index():
