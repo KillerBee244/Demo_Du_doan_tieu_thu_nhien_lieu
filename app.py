@@ -41,7 +41,7 @@ def calculate_metrics(y_true, y_pred):
 
 model_linear = joblib.load('linear_model.pkl')
 model_Mlp = joblib.load('Mlp_model.pkl')
-model_lasso = joblib.load(lasso_model.pkl')
+model_lasso = joblib.load('lasso_model.pkl')
 model_stacking = joblib.load('stacking_model.pkl')
 
 @app.route("/", methods=["GET", "POST"])
